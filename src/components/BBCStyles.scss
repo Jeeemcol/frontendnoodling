@@ -1,0 +1,67 @@
+@font-face {
+    font-family: 'ModeSeven';
+    src: url('/fonts/Modeseven-L3n5.ttf') format('truetype');
+}
+
+$bg-col: black;
+$bbc-font-family: 'ModeSeven', monospace;
+
+@mixin bbcFontStyles {
+    font-family: $bbc-font-family;
+    color: white;
+    background-color: black;
+    font-size: 16px;
+}
+
+@keyframes blink {
+    0%, 49% {
+        opacity: 0;
+    }
+    50%, 100% {
+        opacity: 1;
+    }
+}
+
+.bbc-container {
+    @include bbcFontStyles;
+    background-color: $bg-col;
+    padding: 20px;
+    width: 400px;
+    height: 300px;
+    margin: 50px auto;
+    text-align: left;
+}
+
+.bbc-input-wrapper {
+    position: relative;
+    @include bbcFontStyles;
+    &::after {
+        font-size: larger;
+        content: "_";
+        position: absolute;
+        animation: blink 1s infinite;
+        right: 5px;
+    }
+}
+
+.bbc-input {
+    background-color: transparent;
+    border: none;
+    outline: none;
+    @include bbcFontStyles;
+    caret-color: transparent;//hide I-beam
+}
+
+.bbc-prompt-line {
+    display: flex;
+    align-items: center;
+}
+
+.bbc-prompt {
+    margin-right: 5px;
+}
+
+.prompt-symbol,
+.bbc-input {
+    margin-right: 5px; 
+}
