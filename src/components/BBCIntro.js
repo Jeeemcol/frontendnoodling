@@ -11,12 +11,12 @@ function BBCIntro({ volume, setIsMuted }) {
     const inputRef = useRef(null);
 
     function handleSubmit(e) {
-        e.preventDefault();  // Prevents the page from reloading
+        e.preventDefault();  // Prevents the traditional page load on a submission
         const value = e.target.elements.userInput.value.toLowerCase();
         if (value === 'y' || value === 'n') {
             setPoweredOn(true);
             if (value === 'y') {
-                const audio = new Audio('/audio/bbc.mp3');
+                const audio = new Audio('/audio/bbc.mp3');//not dloaded unless y selected
                 audio.volume = volume;
                 audio.play();
                 setIsMuted(false);
