@@ -1,7 +1,7 @@
 import React, { useRef, useState, useEffect } from 'react';//select specific hooks
 import './BBCStyles.scss';
 
-function BBCIntro() {
+function BBCIntro({ volume, setIsMuted }) {
     // Uses useState hook (array returned with 2 variables: 1) a var and 2) a function)
     // 1) a form of getter 
     // 2) a form of setter(esque: it queues the change for react to manage when ready)
@@ -17,7 +17,12 @@ function BBCIntro() {
             setPoweredOn(true);
             if (value === 'y') {
                 const audio = new Audio('/audio/bbc.mp3');
+                audio.volume = volume;
                 audio.play();
+                setIsMuted(false);
+            }
+            else {
+                setIsMuted(true);
             }
             e.target.elements.userInput.value = '';
         }
