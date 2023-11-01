@@ -3,6 +3,9 @@ import './styles/tailwind.scss';
 import BBCIntro from './components/BBCIntro';
 import AudioControl from './components/AudioControl';
 import Header from  './components/Header';
+import Mid90sInternet from './components/Mid90sInternet';
+import Messenger00s from './components/00sMessenger';
+import UX2010s from './components/2010sUX';
 
 function App() {
   // Below, useState initializes a piece of state for our component and provides a function to update it.
@@ -14,6 +17,11 @@ function App() {
   const [volume, setVolume] = useState(0.4);
   const [isMuted, setIsMuted] = useState(true);
   const [username, setUsername] = useState('');
+  const [audioControlVisible, setAudioControlVisible] = useState(true);
+
+  const toggleAudioControl = () => {
+      setAudioControlVisible(!audioControlVisible);
+  };
 
   return (
     <div className="App relative">
@@ -29,6 +37,9 @@ function App() {
         username={username}
         setUsername={setUsername}
       />
+      <Mid90sInternet />
+      <Messenger00s />
+      <UX2010s />
     </div>
   );
 }

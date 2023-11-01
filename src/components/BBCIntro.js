@@ -90,7 +90,7 @@ function BBCIntro({ volume, setIsMuted, username, setUsername }) {
                 break;
             case 3:
                 if (value === 'y') {
-                    setSysMessage("Then welcome, " + username + ". This was " + process.env.REACT_APP_MY_NAME + "'s first computer. He relied a lot on a post-it and played a lot of games."); 
+                    setSysMessage("Then welcome, " + username + ". This was " + process.env.REACT_APP_MY_NAME + "'s first computer: A BBC Micro. " + process.env.REACT_APP_BBC_BLURB);
                     setPromptIndex(prevIndex => prevIndex + 1);
                     e.target.elements.userInput.value = '';
                 }

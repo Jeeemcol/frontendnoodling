@@ -1,11 +1,17 @@
 import React, { useRef, useEffect, useState } from 'react';
-import { SoundHigh, SoundLow, SoundMin, SoundOff } from 'iconoir-react';
+import { SoundHigh, SoundLow, SoundMin, SoundOff, Gear } from 'iconoir-react';
 import { gsap } from 'gsap';
 import './AudioControl.scss';
 
 const colors = require('tailwindcss/colors');
 
 function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
+
+    const controlRef = useRef(null);
+    const [userChanged, setUserChanged] = useState(false);
+    const autoMinimizeTimerRef = useRef(null);
+    const [minimized, setMinimized] = useState(false);
+
     const getVolumeIcon = () => {
         let activeIcon;
         if (isMuted || volume === 0) {
@@ -20,10 +26,6 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
         return activeIcon;
     }
 
-    const controlRef = useRef(null);
-    const [userChanged, setUserChanged] = useState(false);
-    const autoMinimizeTimerRef = useRef(null);
-
     const startAutoMinimizeTimer = () => {
         if (autoMinimizeTimerRef.current) {
             clearTimeout(autoMinimizeTimerRef.current);
@@ -37,31 +39,31 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
 
     const toggleAudioControls = () => {
         const audioControlElement = controlRef.current;
-        const activeIcon = getVolumeIcon();
 
         if (audioControlElement) {
-            const iconWidth = activeIcon.props.size;
-            const iconHeight = activeIcon.props.size;
-
             if (isMuted || volume === 0) {
-                // Animate audio controls to the size of the active icon (SoundOff)
+                // Animate audio controls to hide (slide to the right)
                 gsap.to(audioControlElement, {
-                    width: iconWidth,
-                    height: iconHeight,
+                    x: window.innerWidth, // Slide to the right
                     opacity: 0,
                     duration: 1,
                     onComplete: () => {
                         audioControlElement.style.display = 'none';
+                        document.querySelector('.audio-control-toggle').style.display = 'inline-block';
+                        setMinimized(true); // Set the minimized state
                     },
                 });
             } else {
-                // Animate audio controls to the size of the active icon (other volume icons)
+                // Animate audio controls to show (slide in from the right)
+                audioControlElement.style.display = 'inline-block';
+                document.querySelector('.audio-control-toggle').style.display = 'none';
                 gsap.to(audioControlElement, {
-                    width: iconWidth,
-                    height: iconHeight,
+                    x: 0, // Slide in from the right
                     opacity: 1,
                     duration: 1,
-                    display: 'block',
+                    onComplete: () => {
+                        setMinimized(false); // Set the minimized state
+                    },
                 });
             }
         }
@@ -76,38 +78,48 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
     }, []);
 
     return (
-        <section className='audio-controls' ref={controlRef}>
-            <span>Audio Controls</span>
-            <button
-                className='text-center'
-                aria-label={isMuted ? 'Unmute' : 'Mute'}
+        <>
+            <section className='audio-controls' ref={controlRef}>
+                <span>Audio Controls</span>
+                <button
+                    className='text-center'
+                    aria-label={isMuted ? 'Unmute' : 'Mute'}
+                    onClick={() => {
+                        setIsMuted((prevMute) => !prevMute);
+                        startAutoMinimizeTimer();
+                    }}
+                >
+                    {getVolumeIcon()}
+                </button>
+                <span id='volumeDescription' className='sr-only'>
+                    {isMuted ? 'Volume is currently muted.' : `Volume level: ${Math.round(volume * 100)}%`}
+                </span>
+                <input
+                    type='range'
+                    id='volumeSlider'
+                    min='0'
+                    max='1'
+                    step='0.01'
+                    value={volume}
+                    onChange={(e) => {
+                        setVolume(parseFloat(e.target.value));
+                        if (isMuted) {
+                            setIsMuted((prevMute) => !prevMute)
+                        }
+                        startAutoMinimizeTimer();
+                    }}
+                    aria-valuenow={volume}
+                />
+            </section>
+            <button className="audio-control-toggle text-center absolute top-0 right-0"
                 onClick={() => {
-                    setIsMuted((prevMute) => !prevMute);
+                    toggleAudioControls();
                     startAutoMinimizeTimer();
                 }}
             >
                 {getVolumeIcon()}
             </button>
-            <span id='volumeDescription' className='sr-only'>
-                {isMuted ? 'Volume is currently muted.' : `Volume level: ${Math.round(volume * 100)}%`}
-            </span>
-            <input
-                type='range'
-                id='volumeSlider'
-                min='0'
-                max='1'
-                step='0.01'
-                value={volume}
-                onChange={(e) => {
-                    setVolume(parseFloat(e.target.value));
-                    if (isMuted) {
-                        setIsMuted((prevMute) => !prevMute)
-                    }
-                    startAutoMinimizeTimer();
-                }}
-                aria-valuenow={volume}
-            />
-        </section>
+        </>
     );
 }
 

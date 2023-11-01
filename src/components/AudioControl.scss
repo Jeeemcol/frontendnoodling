@@ -1,8 +1,12 @@
 @import '../styles/variables';
-.audio-controls {
 
+@mixin audio-button {
+    width:44px;//https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
+    height:44px;
+    margin-right:8px;
+}
+.audio-controls {
     span {
-        cursor: pointer; // Suggests the header is clickable
         color: $text-primary;
         
         &:hover {
@@ -16,12 +20,18 @@
     }
 
     button {
-        width:44px;//https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
-        height:44px;
-        margin-right:8px;
+        @include audio-button;
     }
-    svg.sound-icon, input#volumeSlider {
+    svg.sound-icon, input#volumeSlider, button.audio-control-toggle svg.sound-icon {
         display: inline-block;
         vertical-align: middle;
     }
+}
+button.audio-control-toggle {
+    @include audio-button;
+    display: none;
+    svg.sound-icon {
+        display: inline-block;
+        vertical-align: middle;
+    } 
 }
