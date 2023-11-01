@@ -1,0 +1,30 @@
+@import '../styles/variables';
+.audio-controls {
+    padding: 15px;
+    transition: transform 0.5s; // Smooth transition for the minimization
+    @apply bg-primary-dark text-center;
+
+    header {
+        cursor: pointer; // Suggests the header is clickable
+        color: $text-primary;
+        
+        &:hover {
+            text-decoration: underline; // An indication of interactivity
+        }
+    }
+
+    // Add this if you implement GSAP minimization:
+    &.minimized {
+        transform: scaleY(0);
+    }
+
+    button {
+        width:44px;//https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
+        height:44px;
+        margin-right:8px;
+    }
+    svg.sound-icon, input#volumeSlider {
+        display: inline-block;
+        vertical-align: middle;
+    }
+}

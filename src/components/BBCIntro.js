@@ -1,34 +1,108 @@
 import React, { useRef, useState, useEffect } from 'react';//select specific hooks
 import './BBCStyles.scss';
+import DOMPurify from 'dompurify';
 
-function BBCIntro({ volume, setIsMuted }) {
+const prompts = [
+    {
+      state: 'set-sound',
+      prompt: 'Start with sound? Yes (y)/ No (n)?',
+      inputs: {
+        'y': {
+          message: null,
+          action: null
+        },
+        'n': {
+          message: null,
+          action: null,
+        },
+      },
+    },
+    {
+      state: 'set-name',
+      prompt: 'Please enter your name.',
+      inputs: {
+        'someInput': {
+          message: 'You entered "someInput".',
+          action: () => {
+            // Handle 'someInput' for this prompt
+          }
+        },
+        'anotherInput': {
+          message: 'You entered "anotherInput".',
+          action: () => {
+            // Handle 'anotherInput' for this prompt
+          }
+        },
+      },
+    },
+  ];
+
+function BBCIntro({ volume, setIsMuted, username, setUsername }) {
     // Uses useState hook (array returned with 2 variables: 1) a var and 2) a function)
     // 1) a form of getter 
     // 2) a form of setter(esque: it queues the change for react to manage when ready)
     const [isPoweredOn, setPoweredOn] = useState(false);
     const [isFocussed, setIsFocussed] = useState(false);
+    const [promptIndex, setPromptIndex] = useState(0);
     const [sysMessage, setSysMessage] = useState("Start with sound? Yes (y)/ No (n)?");
     const inputRef = useRef(null);
 
     function handleSubmit(e) {
         e.preventDefault();  // Prevents the traditional page load on a submission
-        const value = e.target.elements.userInput.value.toLowerCase();
-        if (value === 'y' || value === 'n') {
-            setPoweredOn(true);
-            if (value === 'y') {
-                const audio = new Audio('/audio/bbc.mp3');//not dloaded unless y selected
-                audio.volume = volume;
-                audio.play();
-                setIsMuted(false);
-            }
-            else {
-                setIsMuted(true);
-            }
-            e.target.elements.userInput.value = '';
-        }
-        else {
-            setSysMessage("Invalid choice. Please enter 'y' to start with sound or 'n' to start without.");
-            e.target.elements.userInput.value = '';
+        const value = DOMPurify.sanitize(e.target.elements.userInput.value);
+        switch (promptIndex) {
+            case 0:
+                if (value === 'y' || value === 'n') {
+                    setPoweredOn(true);
+                    if (value === 'y') {
+                        const audio = new Audio('/audio/bbc.mp3');//not dl unless y selected
+                        audio.volume = volume;
+                        audio.play();
+                        setIsMuted(false);
+                    }
+                    else {
+                        setIsMuted(true);
+                    }
+                    setSysMessage("BBC Computer 32K<br/>Acorn DFS<br/>BASIC");
+                    setPromptIndex(prevIndex => prevIndex + 1);
+                    e.target.elements.userInput.value = '';
+                }
+                else {
+                    setSysMessage("Invalid choice. Please enter 'y' to start with sound or 'n' to start without.");
+                    e.target.elements.userInput.value = '';
+                }
+                break;
+            case 1:
+                const helloPattern = /(hello|hi|hey|howdy|greetings|salutations|bonjour|hola|ciao|hallo|namaste|konnichiwa|aloha|ahlan|hej|hei)/i;
+                if (helloPattern.test(value)) {
+                    setSysMessage("Please enter your name.");
+                    setPromptIndex(prevIndex => prevIndex + 1);
+                } else {
+                    setSysMessage("You have entered " + value.substring(0, 10) + ". <br/> Hint: say hello!");
+                }
+                e.target.elements.userInput.value = '';
+                break;
+            case 2:
+                setUsername(value);
+                setSysMessage("You have entered " + value + ". Continue with this name (y) or change it (n)?");
+                setPromptIndex(prevIndex => prevIndex + 1);
+                e.target.elements.userInput.value = '';
+                break;
+            case 3:
+                if (value === 'y') {
+                    setSysMessage("Then welcome, " + username + ". This was " + process.env.REACT_APP_MY_NAME + "'s first computer. He relied a lot on a post-it and played a lot of games."); 
+                    setPromptIndex(prevIndex => prevIndex + 1);
+                    e.target.elements.userInput.value = '';
+                }
+                else {
+                    setPromptIndex(prevIndex => prevIndex - 1);
+                    setSysMessage("Please enter your name.");
+                    e.target.elements.userInput.value = '';
+                }
+                break;
+            default:
+                setSysMessage("Unexpected system state: have you tried turning it off and on again?");
+                break;
         }
     }
 
@@ -62,8 +136,9 @@ function BBCIntro({ volume, setIsMuted }) {
 
 
     return (
-        <div className="bbc-container" onClick={focusInput}>
-            { !isPoweredOn && 
+        <> {/* fragment: In JSX, you can't return multiple sibling elements directly. 
+            They need to be wrapped in a parent element or a fragment. */}
+            <div className="bbc-container relative" onClick={focusInput}>
                 <div className="bbc-output">
                     <p dangerouslySetInnerHTML={{ __html: sysMessage }}></p>
                     <form onSubmit={handleSubmit}>
@@ -75,28 +150,15 @@ function BBCIntro({ volume, setIsMuted }) {
                         </div>
                     </form>
                 </div>
-            }
-            { isPoweredOn && 
-                <div className="bbc-output">
-                    <p>BBC Computer 32K</p>
-                    <p>Acorn DFS</p>
-                    <p>BASIC</p>
-                    <div className="bbc-prompt-line">
-                        <span className="bbc-prompt">&gt;</span>
-                        <div className="bbc-input-wrapper">
-                            <input type="text" className="bbc-input" ref={inputRef} size="1"/>
-                        </div>
-                    </div>
-                </div>
-            }
-        </div>
+            </div>
+            <div className="post-it-note absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                Say "Hello"
+            </div>
+        </>
     );
 }
 
 export default BBCIntro;
-
-//mock up a post-it note to stick 
-//on the side of the display saying something like Say "Hello"
 
 //could print a dot matrix style paper thing to seque
 

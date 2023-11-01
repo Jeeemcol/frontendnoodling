@@ -1,16 +1,24 @@
+@import '../styles/variables';
+
 @font-face {
     font-family: 'ModeSeven';
     src: url('/fonts/Modeseven-L3n5.ttf') format('truetype');
 }
 
+@font-face {
+    font-family: 'PermanentMarker';
+    src: url('/fonts/PermanentMarker-Regular.ttf') format('truetype');
+}
+
 $bg-col: black;
 $bbc-font-family: 'ModeSeven', monospace;
+$beige-plastic-start: #ede9e3;
+$beige-plastic-end: #e4ddd5;
 
 @mixin bbcFontStyles {
     font-family: $bbc-font-family;
     color: white;
-    background-color: black;
-    font-size: 16px;
+    font-size: 1rem;
 }
 
 @keyframes blink {
@@ -26,15 +34,45 @@ $bbc-font-family: 'ModeSeven', monospace;
     @include bbcFontStyles;
     background-color: $bg-col;
     padding: 20px;
-    width: 400px;
-    height: 300px;
     margin: 50px auto;
     text-align: left;
+//    border: 15px solid;
+//    border-image: linear-gradient(90deg, $beige-plastic-start, $beige-plastic-end) 1;
+    border-radius: 10px;
+    position: relative;
+    overflow: hidden;
+    z-index: 0;
+
+    // Simulate screen glare
+    &::before {
+        content: "";
+        position: absolute;
+        top: -50%;
+        left: -50%;
+        width: 200%;
+        height: 200%;
+        background: radial-gradient(circle at center, rgba(255, 255, 255, 0.2), transparent);
+        transform: rotate(-30deg);
+        pointer-events: none;  // Ensure it doesn't interfere with user interactions
+    }
+    @media only screen and (min-width: $sm) {
+        width: 400px;
+        height: 300px;
+    }
+    @media only screen and (max-width: $sm) {
+        width: 350px;
+        height: 280px;
+    }
+    @media only screen and (max-width: 360px) {
+        width: 300px;
+        height: 250px;
+    }
 }
 
 .bbc-input-wrapper {
     position: relative;
     @include bbcFontStyles;
+
     &::after {
         font-size: larger;
         content: "_";
@@ -49,7 +87,7 @@ $bbc-font-family: 'ModeSeven', monospace;
     border: none;
     outline: none;
     @include bbcFontStyles;
-    caret-color: transparent;//hide I-beam
+    caret-color: transparent;  // Hide I-beam
 }
 
 .bbc-prompt-line {
@@ -63,5 +101,54 @@ $bbc-font-family: 'ModeSeven', monospace;
 
 .prompt-symbol,
 .bbc-input {
-    margin-right: 5px; 
+    margin-right: 5px;
+}
+
+.post-it-note {
+    position: absolute;
+    right: 156px;
+    top: 315px;
+    transform: rotate(-10deg); // Give it a slight tilt
+    background-color: #ffa;
+    overflow:hidden;
+    padding: 10px;
+    width: 80px;
+    height: 75px;
+    font-size: 12px;
+    z-index: 999;
+    border-radius:0 0 0 30px/45px;
+    box-shadow:
+        inset 0 -40px 40px rgba(0,0,0,0.2),
+        inset 0 25px 10px rgba(0,0,0,0.2),
+        0 5px 6px 5px rgba(0,0,0,0.2);
+    font-family: 'PermanentMarker', cursive;
+    color:#130d6b;
+}
+
+.post-it-note:before {
+    content:"";
+    display:block;
+    position:absolute;
+    width:20px;
+    height:25px;
+    background:#ffa;
+    box-shadow:
+    3px -2px 10px rgba(0,0,0,0.2),
+    inset 15px -15px 15px rgba(0,0,0,0.3);
+    left:0;
+    bottom:0;
+    z-index:2;
+    transform:skewX(10deg);
+}
+
+.post-it-note:after {
+    content:"";
+    display:block;
+    position:absolute;
+    width:75%;
+    height:20px; 
+    border-top:3px solid #130d6b;
+    border-radius: 50% ;
+    bottom:0px;
+    left:10%;
 }

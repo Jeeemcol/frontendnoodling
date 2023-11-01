@@ -12,9 +12,10 @@ function App() {
   // for the actual DOM, ensuring efficient updates.
   const [volume, setVolume] = useState(0.4);
   const [isMuted, setIsMuted] = useState(true);
+  const [username, setUsername] = useState('');
 
   return (
-    <div className="App">
+    <div class="App relative">
       <AudioControl 
           volume={volume} 
           setVolume={setVolume} 
@@ -24,6 +25,8 @@ function App() {
       <BBCIntro
         volume={volume}
         setIsMuted={setIsMuted}
+        username={username}
+        setUsername={setUsername}
       />
     </div>
   );

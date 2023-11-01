@@ -3,7 +3,9 @@ import ReactPlayer from 'react-player';
 import PropTypes from 'prop-types';
 import { gsap } from 'gsap';
 import { SoundHigh, SoundLow, SoundMin, SoundOff } from 'iconoir-react';
+import './AudioControl.scss';
 
+const colors = require('tailwindcss/colors');
 
 //destructures props to use directly within the function
 function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
@@ -11,13 +13,15 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
     //dynamically set volume icons like Windows 11
     const getVolumeIcon = () => {
         if (isMuted || volume == 0) {
-            return <SoundOff size={24} />;
+            // set colours.white value into color attribute of jsx block
+            //button(css): 44px https://www.w3.org/WAI/WCAG21/Understanding/target-size.html
+            return <SoundOff className="sound-icon" color={colors.white} size={24} />;
         } else if (volume > 0 && volume <= 0.33) {
-            return <SoundMin size={24} />;
+            return <SoundMin className="sound-icon" color={colors.white} size={24} />;
         } else if (volume > 0.33 && volume <= 0.66) {
-            return <SoundLow size={24} />;
+            return <SoundLow className="sound-icon" color={colors.white} size={24} />;
         } else {
-            return <SoundHigh size={24} />;
+            return <SoundHigh className="sound-icon" color={colors.white} size={24} />;
         }
     };
 
@@ -34,7 +38,8 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
     return (
         <section className='audio-controls' ref={controlRef}>
             <header>Audio Controls</header>
-            <button 
+            <button
+                className='text-center'
                 aria-label={isMuted ? "Unmute" : "Mute"}
                 // @todo explain this bit (below)
                 onClick={() => setIsMuted(prevMute => !prevMute)}
