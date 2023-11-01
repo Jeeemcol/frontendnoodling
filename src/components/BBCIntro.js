@@ -2,41 +2,6 @@ import React, { useRef, useState, useEffect } from 'react';//select specific hoo
 import './BBCStyles.scss';
 import DOMPurify from 'dompurify';
 
-const prompts = [
-    {
-      state: 'set-sound',
-      prompt: 'Start with sound? Yes (y)/ No (n)?',
-      inputs: {
-        'y': {
-          message: null,
-          action: null
-        },
-        'n': {
-          message: null,
-          action: null,
-        },
-      },
-    },
-    {
-      state: 'set-name',
-      prompt: 'Please enter your name.',
-      inputs: {
-        'someInput': {
-          message: 'You entered "someInput".',
-          action: () => {
-            // Handle 'someInput' for this prompt
-          }
-        },
-        'anotherInput': {
-          message: 'You entered "anotherInput".',
-          action: () => {
-            // Handle 'anotherInput' for this prompt
-          }
-        },
-      },
-    },
-  ];
-
 function BBCIntro({ volume, setIsMuted, username, setUsername }) {
     // Uses useState hook (array returned with 2 variables: 1) a var and 2) a function)
     // 1) a form of getter 
