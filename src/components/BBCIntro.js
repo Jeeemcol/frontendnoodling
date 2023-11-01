@@ -101,7 +101,7 @@ function BBCIntro({ volume, setIsMuted, username, setUsername }) {
                 }
                 break;
             default:
-                setSysMessage("Unexpected system state: have you tried turning it off and on again?");
+                setSysMessage("Unexpected system state.<br/>Have you tried turning it off and on again?");
                 break;
         }
     }

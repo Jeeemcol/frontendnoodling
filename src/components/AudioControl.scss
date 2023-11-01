@@ -1,10 +1,7 @@
 @import '../styles/variables';
 .audio-controls {
-    padding: 15px;
-    transition: transform 0.5s; // Smooth transition for the minimization
-    @apply bg-primary-dark text-center;
 
-    header {
+    span {
         cursor: pointer; // Suggests the header is clickable
         color: $text-primary;
         

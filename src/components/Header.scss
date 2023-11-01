@@ -1,0 +1,11 @@
+@import '../styles/variables';
+    
+header {
+    @apply bg-primary-dark text-center;
+    cursor: pointer; // Suggests the header is clickable
+    color: $text-primary;
+    
+    &:hover {
+        text-decoration: underline; // An indication of interactivity
+    }
+}

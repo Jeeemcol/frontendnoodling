@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './styles/tailwind.scss';
 import BBCIntro from './components/BBCIntro';
 import AudioControl from './components/AudioControl';
+import Header from  './components/Header';
 
 function App() {
   // Below, useState initializes a piece of state for our component and provides a function to update it.
@@ -15,8 +16,8 @@ function App() {
   const [username, setUsername] = useState('');
 
   return (
-    <div class="App relative">
-      <AudioControl 
+    <div className="App relative">
+      <Header 
           volume={volume} 
           setVolume={setVolume} 
           isMuted={isMuted} 
