@@ -37,9 +37,6 @@ function App() {
         username={username}
         setUsername={setUsername}
       />
-      <Mid90sInternet />
-      <Messenger00s />
-      <UX2010s />
     </div>
   );
 }
