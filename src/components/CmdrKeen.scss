@@ -1,0 +1,12 @@
+.character, .character-pogo {
+    height:70px;
+    width:38px;
+}
+.character {
+    background-image: url(keen-running.png);
+}
+.character-pogo {
+    background-image: url(pogo-crouch.png);
+    height:52px;
+    width:34px;
+}

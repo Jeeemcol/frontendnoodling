@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './styles/tailwind.scss';
 import BBCIntro from './components/BBCIntro';
 import AudioControl from './components/AudioControl';
+import CmdrKeen from './components/CmdrKeen';
 import Header from  './components/Header';
 import Mid90sInternet from './components/Mid90sInternet';
 import Messenger00s from './components/00sMessenger';
@@ -36,6 +37,9 @@ function App() {
         setIsMuted={setIsMuted}
         username={username}
         setUsername={setUsername}
+      />
+      <CmdrKeen
+        volume={volume}
       />
     </div>
   );
