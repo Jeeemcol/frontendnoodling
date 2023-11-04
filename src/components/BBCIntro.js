@@ -2,7 +2,7 @@ import React, { useRef, useState, useEffect } from 'react';//select specific hoo
 import './BBCStyles.scss';
 import DOMPurify from 'dompurify';
 
-function BBCIntro({ volume, setIsMuted, username, setUsername }) {
+function BBCIntro({ volume, setIsMuted, username, setUsername, startCmdrKeenAnimation }) {
     // Uses useState hook (array returned with 2 variables: 1) a var and 2) a function)
     // 1) a form of getter 
     // 2) a form of setter(esque: it queues the change for react to manage when ready)
@@ -58,6 +58,8 @@ function BBCIntro({ volume, setIsMuted, username, setUsername }) {
                     setSysMessage("Then welcome, " + username + ". This was " + process.env.REACT_APP_MY_NAME + "'s first computer: A BBC Micro. " + process.env.REACT_APP_BBC_BLURB);
                     setPromptIndex(prevIndex => prevIndex + 1);
                     e.target.elements.userInput.value = '';
+                    //trigger Keen after x seconds (give time for the reply to show)
+                    startCmdrKeenAnimation(true);
                 }
                 else {
                     setPromptIndex(prevIndex => prevIndex - 1);
@@ -66,7 +68,7 @@ function BBCIntro({ volume, setIsMuted, username, setUsername }) {
                 }
                 break;
             default:
-                setSysMessage("Unexpected system state.<br/>Have you tried turning it off and on again?");
+                setSysMessage("What the?!<br/>Follow that pogo!");
                 break;
         }
     }

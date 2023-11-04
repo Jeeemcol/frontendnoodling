@@ -19,6 +19,7 @@ function App() {
   const [isMuted, setIsMuted] = useState(true);
   const [username, setUsername] = useState('');
   const [audioControlVisible, setAudioControlVisible] = useState(true);
+  const [cmdrKeenAnimate, startCmdrKeenAnimation] = useState(false);
 
   const toggleAudioControl = () => {
       setAudioControlVisible(!audioControlVisible);
@@ -37,9 +38,12 @@ function App() {
         setIsMuted={setIsMuted}
         username={username}
         setUsername={setUsername}
+        startCmdrKeenAnimation={startCmdrKeenAnimation}
       />
       <CmdrKeen
         volume={volume}
+        cmdrKeenAnimate={cmdrKeenAnimate}
+        startCmdrKeenAnimation={startCmdrKeenAnimation}
       />
     </div>
   );
