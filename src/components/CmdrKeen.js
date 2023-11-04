@@ -60,7 +60,7 @@ function CmdrKeen({ volume, cmdrKeenAnimate, startCmdrKeenAnimation }) {
                         mainTl.kill();
                     },
                 });
-            }, 4000);
+            }, 3000);
         }
     }, [cmdrKeenAnimate]);
 
