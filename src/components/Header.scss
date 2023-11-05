@@ -4,10 +4,8 @@ header {
     //cursor: pointer; // Suggests the header is clickable
     color: $text-primary;
     height:50px;
-    div#site-logo {
-        img {
-            height:40px;
-        }
+    img#site-logo {
+        height:40px;
     }
     span#page-title {
         color: white;

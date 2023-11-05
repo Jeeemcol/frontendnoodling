@@ -12,10 +12,16 @@ function Header({ volume, setVolume, isMuted, setIsMuted }) {
 
     return (
         <header className="relative flex justify-center items-center">
-            <div id="site-logo" className="absolute ml-1 left-0 rounded-full overflow-hidden shadow-inner">
-                <img src={logo} alt="Site logo, man with an old monitor for a head"/>
-            </div>
-            <span id="page-title" className="absolute top-0 left-16 items-center top-1/4">Jm --about</span>
+            <a href="/">
+                <span className="sr-only">Home</span>
+                <img 
+                    id="site-logo" 
+                    src={logo} 
+                    alt="Site logo, man with an old monitor for a head" 
+                    className="absolute ml-1 left-0 top-0 mt-1 rounded-full overflow-hidden"
+                />
+            </a>
+            <span id="page-title" className="absolute top-0 left-16 items-center top-1/4 hidden sm:block">Jm --about</span>
             <AudioControl
                 volume={volume} 
                 setVolume={setVolume} 

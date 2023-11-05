@@ -19,6 +19,12 @@ npm install
 3. **Start the Development Server:**
 npm start
 
+4. **Run a build:**
+npm run build
+
+5. **Deploy a build:**
+npm run deploy #note this requires further setup of your own
+
 
 This will open a browser window pointing to `http://localhost:3000/` displaying the app.
 
