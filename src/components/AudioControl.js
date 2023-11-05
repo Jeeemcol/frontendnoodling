@@ -9,7 +9,7 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
 
     const controlRef = useRef(null);
     const [userChanged, setUserChanged] = useState(false);
-    const autoMinimizeTimerRef = useRef(null);
+    const autoMinimizeTimerRef = useRef(false);
     const [minimized, setMinimized] = useState(false);
 
     const getVolumeIcon = () => {
@@ -67,22 +67,14 @@ function AudioControl({ volume, setVolume, isMuted, setIsMuted }) {
                 });
             }
         }
-    }
-
-    useEffect(() => {
-        return () => {
-            if (autoMinimizeTimerRef.current) {
-                clearTimeout(autoMinimizeTimerRef.current);
-            }
-        };
-    }, []);
+    }    
 
     return (
         <>
             <section className='audio-controls' ref={controlRef}>
-                <span>Audio Controls</span>
+                <span className='sr-only'>Audio Controls</span>
                 <button
-                    className='text-center'
+                    className='text-center top-0 right-0 inline-block'
                     aria-label={isMuted ? 'Unmute' : 'Mute'}
                     onClick={() => {
                         setIsMuted((prevMute) => !prevMute);

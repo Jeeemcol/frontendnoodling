@@ -1,6 +1,6 @@
 # Frontend Noodling with React
 
-This project is an exploration into React along with frontend design techniques and JavaScript animation libraries. It serves as a playground to test, learn, and experiment with modern web technologies.
+This project is an exploration into React along with frontend design techniques and JavaScript animation libraries. It serves as a playground to test, learn, and experiment with web technologies.
 
 ## Structure
 
@@ -30,7 +30,12 @@ This will open a browser window pointing to `http://localhost:3000/` displaying 
 
 ## Future Improvements
 
+- [ ] Fix spacing issue on BBCIntro cursor that has returned.
+- [ ] Remove horizontal scrollbar on AudioControl hide to right.
+- [ ] Trigger hide AudioControl on BBCIntro y or n selection.
+- [ ] Fix trigger not working to hide AudioControl if a BBCIntro y or n selection has been made.
 - [ ] Integrate React Router for multi-page functionality.
+- [ ] If above, integrate logo, header nav and audiocontrol into it
 - [ ] Explore more advanced animations and transitions.
 - [ ] Add state management solutions if complexity increases.
 

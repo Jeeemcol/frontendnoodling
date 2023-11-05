@@ -26,6 +26,9 @@
         display: inline-block;
         vertical-align: middle;
     }
+    input#volumeSlider {
+        cursor: pointer;
+    }
 }
 button.audio-control-toggle {
     @include audio-button;
